@@ -28,7 +28,7 @@ float Perro_PromedioEdades(ePerro list[],int len);
 int Perro_printLista(ePerro list[], int length);
 void Perro_printEncabezado();
 void Perro_printOne(ePerro perro);
-
+int Perro_CargaBaseDatos(ePerro list[], int length);
 
 
 #endif /* PERRO_H_ */

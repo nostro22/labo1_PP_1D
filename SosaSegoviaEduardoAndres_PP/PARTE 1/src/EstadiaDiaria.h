@@ -21,12 +21,13 @@ typedef struct
 }eEstadiaDiaria;
 
 int EstadiaDiaria_initLista(eEstadiaDiaria list[], int len);
-int EstadiaDiaria_addPerro(eEstadiaDiaria list[], int len, int id, char nombreduenio[],int telefonoContacto, int idPerro, eFecha fecha);
+int EstadiaDiaria_addEstadiaDiaria(eEstadiaDiaria list[], int len, int id, char nombreduenio[],int telefonoContacto, int idPerro, eFecha fecha);
 int EstadiaDiaria_buscarEspacioLibre(eEstadiaDiaria list[], int tam);
 int EstadiaDiaria_findById(eEstadiaDiaria list[], int len,int id);
-int EstadiaDiaria_removePerro(eEstadiaDiaria list[], int len, int id);
+int EstadiaDiaria_removeEstadia(eEstadiaDiaria list[], int len, int id);
 int EstadiaDiaria_printLista(eEstadiaDiaria list[], int length);
 void EstadiaDiaria_printEncabezado();
 void EstadiaDiaria_printOne(eEstadiaDiaria estadia);
-
+int EstadiaDiaria_PedirIdPerro(ePerro list[], int length, int *idPerro,int cantidadIntentosPermitidos);
+int EstadiaDiaria_sortEstadia(eEstadiaDiaria list[], int len, int order);
 #endif /* ESTADIADIARIA_H_ */

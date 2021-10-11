@@ -28,7 +28,7 @@ int Perro_addPerro(ePerro list[], int len, int id, char name[],char raza[],int e
 
 		if(index != -1) //Si hay lugar en el array
 		{
-			printf("\nDando de alta un empleado...\n\n");
+			printf("\nDando de alta un perro...\n\n");
 			if(list!=NULL&&list[index].isEmpty==1)
 			{
 				list[index].id= id;
@@ -42,7 +42,7 @@ int Perro_addPerro(ePerro list[], int len, int id, char name[],char raza[],int e
 			{
 				printf("\nSe cancelo el alta del perro.\n\n");
 			}
-			retorno = 0;
+			retorno = 1;
 		}
 		else
 		{
@@ -196,9 +196,15 @@ void Perro_printOne(ePerro perro)
 	printf("%-5d %-20s %-20s %-20d\n", perro.id, perro.nombre, perro.raza, perro.edad);
 }
 
-void PerroCargaBaseDatos(ePerro list[], int length)
+int Perro_CargaBaseDatos(ePerro list[], int length)
 {
-	Perro_addPerro( list, length,  7000,"Lobo","Sharpei",2);
-	Perro_addPerro( list, length,  7001,"Sheila"  ,"Golden",12);
-	Perro_addPerro( list, length, 7002,"Reina"  ,"Galgo",13);
+	int retorno=-1;
+	if (length>3)
+	{
+		Perro_addPerro( list, length,  7000,"Lobo","Sharpei",2);
+		Perro_addPerro( list, length,  7001,"Sheila"  ,"Golden",12);
+		Perro_addPerro( list, length, 7002,"Reina"  ,"Galgo",13);
+		retorno=1;
+	}
+	return retorno;
 }
