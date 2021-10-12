@@ -29,32 +29,43 @@ int main(void) {
 
 ePerro listaPerros[QTY_PERROS];
 eEstadiaDiaria listaEstadias[QTY_ESTADIAS];
-int idContadorPerros=7003;
+int perrosActivos;
 int auxIndex;
-ePerro auxPerro;
 eEstadiaDiaria auxEstadia;
-eFecha auxFecha;
+
 
 int idContadorEstadias=100000;
 int estadiasActivas =0;
-int opcion;
+int opcion=0;
 int salir=0;
 char confirmacion;
-float sumatoriaEdad=0;
 float promedioEdad;
 setbuf(stdout,NULL);
 Perro_initLista(listaPerros, QTY_PERROS);
+EstadiaDiaria_initLista(listaEstadias, QTY_ESTADIAS);
 Perro_CargaBaseDatos(listaPerros,QTY_PERROS);
-
-Fecha_pedir(&auxFecha, 2);
-Fecha_print(auxFecha);
+perrosActivos=3;
 
 int datosObtenidosEstadia[]={-1,-1,-1,-1};
 
 
+//Prueba Estadias
+
+EstadiaDiaria_addEstadiaDiariaHardcode(listaEstadias, QTY_ESTADIAS, 100000, "A", 1000000000, 7000,22,1,2000);
+EstadiaDiaria_addEstadiaDiariaHardcode(listaEstadias, QTY_ESTADIAS, 100001, "Ab", 1000000001, 7000,22,1,2000);
+EstadiaDiaria_addEstadiaDiariaHardcode(listaEstadias, QTY_ESTADIAS, 100002, "AA", 1000000002, 7001,22,1,2000);
+EstadiaDiaria_addEstadiaDiariaHardcode(listaEstadias, QTY_ESTADIAS, 100003, "B", 1000000003, 7000,22,1,2001);
+EstadiaDiaria_addEstadiaDiariaHardcode(listaEstadias, QTY_ESTADIAS, 100004, "BB", 1000000004, 7002,22,1,2002);
+EstadiaDiaria_addEstadiaDiariaHardcode(listaEstadias, QTY_ESTADIAS, 100005, "B", 1000000005, 7003,22,1,2003);
+EstadiaDiaria_addEstadiaDiariaHardcode(listaEstadias, QTY_ESTADIAS, 100006, "Ca", 1000000006, 7000,22,1,2004);
+EstadiaDiaria_addEstadiaDiariaHardcode(listaEstadias, QTY_ESTADIAS, 100007, "C", 1000000007, 7000,22,1,2005);
+EstadiaDiaria_addEstadiaDiariaHardcode(listaEstadias, QTY_ESTADIAS, 100008, "CB", 1000000008, 7000,22,1,2006);
+idContadorEstadias=100009;
+estadiasActivas =9;
+
 do
 {
-
+	printf("\n\n\n\n\n\n\n\n\n");
 	printf("Base de datos de Estadias ver.0\n\n"
 			"1)Reservar Estadia\n"
 			"2)Modificar Estadia\n"
@@ -63,7 +74,7 @@ do
 			"5)Listar Perros\n"
 			"6)Promedio de Edad de los perros\n"
 			"7)SALIR\n");
-	pedirEntero(&opcion, "Opcion:", "ERROR", 1, 7);
+	pedirEntero(&opcion, "Opcion:", "Opcion invalidad reingrese", 1, 7,INTENTOS_PERMITIDOS);
 	switch (opcion) {
 		case 1:
 
@@ -71,13 +82,25 @@ do
 			if(auxIndex!=-1)
 			{
 				auxEstadia.id=idContadorEstadias;
-				printf("Ingresando nueva estadia en la base, estadia n° %d\n",auxIndex);
+				printf("Ingresando nueva estadia en la base, estadia n° %d\n",idContadorEstadias);
 				printf("Maximo de longitud permitido %d caracteres\n",NOMBRERAZALENGTH);
-				datosObtenidosEstadia[0]=pedirCadena(auxEstadia.nombreDuenio, "Ingrese el nombre del dueño\n", "Reingrese nombre invalido\n", NOMBRERAZALENGTH);
-				printf("Valores aceptados %d-%d \n",1000000000, 1999999999);
-				datosObtenidosEstadia[1]=pedirEntero(&auxEstadia.telefonoContacto, "Ingrese el telefono de contacto", "Reingrese telefono invalido", 1000000000, 1999999999);
-				datosObtenidosEstadia[2]=EstadiaDiaria_PedirIdPerro(listaPerros, QTY_PERROS, &auxEstadia.idPerro,INTENTOS_PERMITIDOS);
-				datosObtenidosEstadia[3]=Fecha_pedir(&auxFecha, INTENTOS_PERMITIDOS);
+				datosObtenidosEstadia[0]=pedirCadenaSoloLetras(auxEstadia.nombreDuenio, "Ingrese el nombre del dueño\n", "Reingrese nombre invalido\n", NOMBRERAZALENGTH,INTENTOS_PERMITIDOS);
+				if(datosObtenidosEstadia[0]!=-1)
+				{
+					printf("\nValores aceptados %d-%d \n",1000000000, 1999999999);
+					datosObtenidosEstadia[1]=pedirEntero(&auxEstadia.telefonoContacto, "Ingrese el telefono de contacto", "Reingrese telefono invalido", 1000000000, 1999999999,INTENTOS_PERMITIDOS);
+				}
+				if(datosObtenidosEstadia[1]==1)
+				{
+					printf("\n");
+					datosObtenidosEstadia[2]=EstadiaDiaria_PedirIdPerro(listaPerros, QTY_PERROS, &auxEstadia.idPerro,INTENTOS_PERMITIDOS);
+
+				}
+				if(datosObtenidosEstadia[2]==1)
+				{
+					printf("\n");
+					datosObtenidosEstadia[3]=Fecha_pedir(&auxEstadia.fecha, INTENTOS_PERMITIDOS);
+				}
 
 				if(datosObtenidosEstadia[0]!=-1&&datosObtenidosEstadia[1]!=-1&&datosObtenidosEstadia[2]!=-1&&datosObtenidosEstadia[3]!=-1)
 				{
@@ -114,45 +137,54 @@ do
 			printf("Bienvenido al menu de modificacion\n\n");
 			if(estadiasActivas>0)
 			{
-				pedirEntero(&auxEstadia.id, " ingrese el numero de Estadia que desea modificar\n", "Ingreso invalido, reingrese\n", ESTADIAMIN, ESTADIAMAX);
+				pedirEntero(&auxEstadia.id, " ingrese el numero de Estadia que desea modificar\n", "Ingreso invalido, reingrese\n", ESTADIAMIN, ESTADIAMAX,INTENTOS_PERMITIDOS);
 				int estadiaConseguida=-1;
-				estadiaConseguida= EstadiaDiaria_findById(listaEstadias, QTY_ESTADIAS, estadiaConseguida);
+				estadiaConseguida= EstadiaDiaria_findById(listaEstadias, QTY_ESTADIAS, auxEstadia.id);
 				if(estadiaConseguida!=-1 && listaEstadias[estadiaConseguida].isEmpty!=1)
 				{   auxEstadia=listaEstadias[estadiaConseguida];
 					EstadiaDiaria_printEncabezado();
 					EstadiaDiaria_printOne(auxEstadia);
 					pedirEntero(&opcion, "Ingrese:\n"
 							"1)Modificar el telefono de contacto\n"
-							"2)Modificar Ael perro\n"
+							"2)Modificar el Id perro asociado a esta estadia\n"
 							"3)Volver al menu\n",
 							"Opcion invalidad reingrese:\n"
 							"1)Modificar el telefono de contacto\n"
-							"2)Modificar Ael perro\n"
-							"3)Volver al menu\n", 1, 3);
+							"2)Modificar el Id perro asociado a esta estadia\n"
+							"3)Volver al menu\n", 1, 3,INTENTOS_PERMITIDOS);
+							datosObtenidosEstadia[2]=-1;
+							datosObtenidosEstadia[1]=-1;
 					switch (opcion)
 					{
 						case 1:
 							printf("Valores aceptados %d-%d \n",1000000000, 1999999999);
-							datosObtenidosEstadia[1]=pedirEntero(&auxEstadia.telefonoContacto, "Ingrese el telefono de contacto", "Reingrese telefono invalido", 1000000000, 1999999999);
+							datosObtenidosEstadia[1]=pedirEntero(&auxEstadia.telefonoContacto, "Ingrese el telefono de contacto", "Reingrese telefono invalido", 1000000000, 1999999999,INTENTOS_PERMITIDOS);
+
+
 							break;
 						case 2:
-
+							datosObtenidosEstadia[2]=EstadiaDiaria_PedirIdPerro(listaPerros, QTY_PERROS, &auxEstadia.idPerro,INTENTOS_PERMITIDOS);
 												break;
 						case 3:
 							printf("Volviendo al menu \n");
 												break;
 
 					}
+					if(datosObtenidosEstadia[1]==1||datosObtenidosEstadia[2]==1)
+					{
 						EstadiaDiaria_printEncabezado();
 						EstadiaDiaria_printOne(auxEstadia);
 						pedirCaracter(&confirmacion, "\n\nEsta Seguro que desea realizar este cambio; ingrese  Y para confirmar");
 						if(confirmacion=='Y'||confirmacion=='y')
 						{
 							listaEstadias[estadiaConseguida]=auxEstadia;
-							printf("Empleado Actualizado Exitosamente \nVolviendo al menu \n");
+							printf("Estadia Actualizada Exitosamente \nVolviendo al menu \n");
 						}
-
-
+					}
+					else
+					{
+						printf("Volviendo al menu intentos agotados");
+					}
 				}
 				else
 				{
@@ -170,13 +202,13 @@ do
 			printf("Bienvenido al menu de Cancelacion de estadia\n\n");
 			if(estadiasActivas>0)
 			{
-				pedirEntero(&auxEstadia.id, " ingrese el numero de empleado que desea dar de baja\n", "Ingreso invalido, reingrese rango permitido (1-32767)\n", 1, 32767);
+				pedirEntero(&auxEstadia.id, " ingrese el ID de Estadia que desea dar de baja\n", "Ingreso invalido, reingrese rango permitido (100000-10000000000)\n", 100000, 1000000,INTENTOS_PERMITIDOS);
 				int estadiaConseguida=-1;
 				estadiaConseguida=EstadiaDiaria_findById(listaEstadias, QTY_ESTADIAS, auxEstadia.id);
 				if(estadiaConseguida!=-1 && listaEstadias[estadiaConseguida].isEmpty!=1)
 				{
 					EstadiaDiaria_printEncabezado();
-					EstadiaDiaria_printOne(auxEstadia);
+					EstadiaDiaria_printOne(listaEstadias[estadiaConseguida]);
 					pedirCaracter(&confirmacion, "\n\nEsta Seguro que desea dar de baja a esta estadia; ingrese  Y para confirmar");
 					if(confirmacion=='Y'||confirmacion=='y')
 					{
@@ -185,57 +217,61 @@ do
 						printf("Estadia dado de baja Exitosamente \nVolviendo al menu \n");
 					}
 				}
+				else
+				{
+					printf("No se encontro estadia activa con ese Id \nVolviendo al menu\n");
+				}
 			}
 			else
 			{
-				printf("Aun no ha agregado ningun empleado solo puede dar de baja a empleados registrados y activos \nVolviendo al menu\n");
+				printf("No ha agregado ninguna estadia solo puede dar de baja estadias preExistentes \nVolviendo al menu\n");
 			}
 			system("pause");
 					break;
 		case 4:
-			printf("Bienvenido al menu de Informes \nListado de Estadias ordenados por fecha y nombre de dueño.\n\n\n");
+			printf("\nBienvenido al menu de Informes \nListado de Estadias ordenados por fecha y nombre de dueño.\n\n\n");
 			if(estadiasActivas>0)
 			{
-				pedirEntero(&opcion, "Ingrese:\n"
-								"1)Orden Acendente.\n"
-								"2)Orden Decendente. \n",
-								"Ingreso Invalido reingrese:\n"
-								"1)Orden Acendente.\n"
-								"2)Orden Decendente. \n",1,2);
-				if(opcion==1)//Ascendente
-				{
-					EstadiaDiaria_sortEstadia(listaEstadias, QTY_ESTADIAS, 0);
-				}
 
-				else//Descendente
-				{
-					EstadiaDiaria_sortEstadia(listaEstadias, QTY_ESTADIAS, 1);
-				}
+			EstadiaDiaria_sortEstadia(listaEstadias, QTY_ESTADIAS, 0);
 			EstadiaDiaria_printLista(listaEstadias, QTY_ESTADIAS);
 			system("pause");
 			}
 			else
 			{
-				printf("Aun no ha agregado ningun empleado nada que informar \nVolviendo al menu\n");
+				printf("Aun no ha agregado ninguna Estadia nada que informar \nVolviendo al menu\n");
 			}
 			system("pause");
 					break;
 		case 5:
-			printf("Bienvenido al menu de Informes \nListado de Perros\n\n");
-			Perro_printLista(listaPerros, QTY_PERROS);
+			printf("\nBienvenido al menu de Informes \nListado de Perros\n\n");
+			if(perrosActivos>0)
+			{
+				Perro_printLista(listaPerros, QTY_PERROS);
+			}
+			else
+			{
+				printf("\nNo hay ningun perro en sistema\n");
+			}
+			system("pause");
 					break;
 		case 6:
-			printf("Bienvenido al menu de Informes \nEdad Promedio de edad de los perros\n\n");
+			printf("\n\nBienvenido al menu de Informes \n\n\n");
 			promedioEdad=Perro_PromedioEdades(listaPerros, QTY_PERROS);
-			printf("EL promedio de edad de los perros es %.2f",promedioEdad);
+			printf("EL promedio de edad de los perros es %.2f\n\n",promedioEdad);
+			system("pause");
 							break;
 		case 7:
 						salir=1;
 							break;
 	}
-	printf("Ingrese una tecla para continuar");
-getchar();
+	if(opcion!=7)
+	{
+		printf("Ingrese una tecla para continuar");
+		getchar();
+	}
+
+
 }while(!salir);
-
-
+printf("\nCerrando Programa\n Programa cerrado");
 }

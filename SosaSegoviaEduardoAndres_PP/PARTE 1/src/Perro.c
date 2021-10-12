@@ -73,13 +73,12 @@ int Perro_findById(ePerro list[], int len,int id)
 
 	for(i=0; i<len; i++)
 	{
-		if(list[i].id == id)
+		if(list[i].id == id&&list[i].isEmpty==0)
 		{
 			index = i;
 			break;
 		}
 	}
-
 	return index;
 }
 int Perro_removePerro(ePerro list[], int len, int id)
@@ -142,13 +141,9 @@ float Perro_TotalSumaEdades(ePerro list[],int len)
 				{
 					retorno+=list[i].edad;
 				}
-
 			}
 	}
-	if(retorno!=-1)
-	{
-		retorno++;
-	}
+
 	return retorno;
 }
 float Perro_PromedioEdades(ePerro list[],int len)

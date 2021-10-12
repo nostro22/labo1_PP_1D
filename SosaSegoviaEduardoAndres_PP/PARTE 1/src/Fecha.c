@@ -48,12 +48,19 @@ int Fecha_pedir(eFecha *fecha, int cantidadIntentosPermitidos)
 {
 	int retorno =-1;
 	int intentos=0;
+	int datos[3];
 eFecha auxFecha;
 	do
 	{
-		pedirEntero(&auxFecha.dia, "Ingrese el dia de estadia\n", "Dia invalido reingrese\n", 1, 31);
-		pedirEntero(&auxFecha.mes, "Ingrese el mes de estadia\n", "Mes invalido reingrese\n", 1, 12);
-		pedirEntero(&auxFecha.anio, "Ingrese el anio de estadia\n", "Anio invalido reingrese\n", 2021, 3000);
+		datos[0]=pedirEntero(&auxFecha.dia, "Ingrese el dia de estadia\n", "Dia invalido reingrese\n", 1, 31,1);
+		if(datos[0]==1)
+		{
+			datos[1]=pedirEntero(&auxFecha.mes, "Ingrese el mes de estadia\n", "Mes invalido reingrese\n", 1, 12,1);
+		}
+		if(datos[1]==1)
+		{
+			datos[2]=pedirEntero(&auxFecha.anio, "Ingrese el anio de estadia\n", "Anio invalido reingrese\n", 2021, 3000,1);
+		}
 		intentos++;
 		if(Fecha_verificar(auxFecha)!=1&&intentos<cantidadIntentosPermitidos)
 		{
@@ -67,7 +74,7 @@ eFecha auxFecha;
 
 	}while(Fecha_verificar(auxFecha)!=1&&intentos<cantidadIntentosPermitidos);
 
-	if(intentos<cantidadIntentosPermitidos)
+	if(Fecha_verificar(auxFecha)==1)
 	{
 		*fecha=auxFecha;
 		retorno=1;
