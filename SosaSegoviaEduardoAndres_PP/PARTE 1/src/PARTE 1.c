@@ -33,7 +33,6 @@ int perrosActivos;
 int auxIndex;
 eEstadiaDiaria auxEstadia;
 
-
 int idContadorEstadias=100000;
 int estadiasActivas =0;
 int opcion=0;
@@ -47,21 +46,6 @@ Perro_CargaBaseDatos(listaPerros,QTY_PERROS);
 perrosActivos=3;
 
 int datosObtenidosEstadia[]={-1,-1,-1,-1};
-
-
-//Prueba Estadias
-
-EstadiaDiaria_addEstadiaDiariaHardcode(listaEstadias, QTY_ESTADIAS, 100000, "A", 1000000000, 7000,22,1,2000);
-EstadiaDiaria_addEstadiaDiariaHardcode(listaEstadias, QTY_ESTADIAS, 100001, "Ab", 1000000001, 7000,22,1,2000);
-EstadiaDiaria_addEstadiaDiariaHardcode(listaEstadias, QTY_ESTADIAS, 100002, "AA", 1000000002, 7001,22,1,2000);
-EstadiaDiaria_addEstadiaDiariaHardcode(listaEstadias, QTY_ESTADIAS, 100003, "B", 1000000003, 7000,22,1,2001);
-EstadiaDiaria_addEstadiaDiariaHardcode(listaEstadias, QTY_ESTADIAS, 100004, "BB", 1000000004, 7002,22,1,2002);
-EstadiaDiaria_addEstadiaDiariaHardcode(listaEstadias, QTY_ESTADIAS, 100005, "B", 1000000005, 7003,22,1,2003);
-EstadiaDiaria_addEstadiaDiariaHardcode(listaEstadias, QTY_ESTADIAS, 100006, "Ca", 1000000006, 7000,22,1,2004);
-EstadiaDiaria_addEstadiaDiariaHardcode(listaEstadias, QTY_ESTADIAS, 100007, "C", 1000000007, 7000,22,1,2005);
-EstadiaDiaria_addEstadiaDiariaHardcode(listaEstadias, QTY_ESTADIAS, 100008, "CB", 1000000008, 7000,22,1,2006);
-idContadorEstadias=100009;
-estadiasActivas =9;
 
 do
 {

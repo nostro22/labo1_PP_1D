@@ -87,6 +87,7 @@ void Fecha_print(eFecha fecha)
 {
 	printf("%d/%d/%d \n", fecha.dia,fecha.mes,fecha.anio);
 }
+
 int Fecha_comparacion(eFecha fecha1,eFecha fecha2)
 {
 	int retorno =-1;
